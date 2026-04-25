@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_main"
+    tools:context=".MainActivity">
+
+    <!-- 顶部状态栏 -->
+    <LinearLayout
+        android:id="@+id/status_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <View
+            android:id="@+id/status_dot"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginEnd="8dp"
+            android:background="@android:color/darker_gray" />
+
+        <TextView
+            android:id="@+id/status_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="模型初始化中..."
+            android:textColor="#666666"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <!-- 1. 实时识别书页 (向上移动并调整高度) -->
+    <FrameLayout
+        android:id="@+id/card_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintBottom_toTopOf="@+id/file_recognition_card"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/status_layout"
+        app:layout_constraintVertical_weight="1.2">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:background="@color/white"
+            android:elevation="1dp" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/main_card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="4dp"
+            app:cardBackgroundColor="@color/voice_card_paper"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="4dp"
+            app:strokeColor="#E0E0E0"
+            app:strokeWidth="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <!-- 语音录入展示区域标题 (改为淡蓝色) -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="12dp"
+                    android:text="语音录入展示区域"
+                    android:textColor="@color/btn_light_blue"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1">
+
+                    <ScrollView
+                        android:id="@+id/result_scroll"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingBottom="48dp"
+                        android:clipToPadding="false">
+
+                        <EditText
+                            android:id="@+id/result_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:gravity="top|start"
+                            android:inputType="textMultiLine"
+                            android:lineSpacingExtra="6dp"
+                            android:padding="16dp"
+                            android:text=""
+                            android:textColor="@color/voice_text_main"
+                            android:textSize="14sp" />
+                    </ScrollView>
+
+                    <LinearLayout
+                        android:id="@+id/action_bar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_marginBottom="4dp"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:elevation="10dp">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/clear_button"
+                            style="@style/Widget.MaterialComponents.Button.TextButton"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="清空记录"
+                            android:textColor="@color/dark_gray"
+                            android:textSize="11sp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/save_button"
+                            style="@style/Widget.MaterialComponents.Button.TextButton"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="保存文本"
+                            android:textColor="@color/dark_gray"
+                            android:textSize="11sp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/copy_button"
+                            style="@style/Widget.MaterialComponents.Button.TextButton"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="复制全文"
+                            android:textColor="@color/dark_gray"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+                </FrameLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </FrameLayout>
+
+    <!-- 2. 新增：音频文件识别区 -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/file_recognition_card"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="20dp"
+        app:cardBackgroundColor="#FDF5E6"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="2dp"
+        app:strokeColor="#CCCCCC"
+        app:strokeWidth="1dp"
+        app:layout_constraintBottom_toTopOf="@+id/button_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_container">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="音频文件转录 (WAV/MP3)"
+                android:textColor="@color/btn_light_blue"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/pick_file_button"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="批量选取音频"
+                    android:textColor="@color/dark_gray"
+                    android:textSize="12sp"
+                    app:cornerRadius="20dp" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/open_folder_button"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="查看保存文件"
+                    android:textSize="12sp"
+                    android:textColor="@color/dark_gray" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/file_status_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:ellipsize="middle"
+                android:singleLine="true"
+                android:text="未选择文件"
+                android:textColor="#999999"
+                android:textSize="11sp" />
+
+            <ProgressBar
+                android:id="@+id/file_process_bar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_marginTop="8dp"
+                android:indeterminate="false"
+                android:visibility="invisible" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- 3. 底部录音按钮 (位置微调) -->
+    <FrameLayout
+        android:id="@+id/button_container"
+        android:layout_width="220dp"
+        android:layout_height="64dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/recognize_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:backgroundTint="@color/btn_light_blue"
+            android:enabled="false"
+            android:text="请稍候..."
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:cornerRadius="32dp"
+            app:elevation="4dp" />
+
+        <LinearLayout
+            android:id="@+id/waveform_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:visibility="gone">
+            <!-- 波纹线条保持不变 -->
+            <View android:layout_width="3dp" android:layout_height="10dp" android:layout_margin="1.5dp" android:background="#FFFFFF" android:alpha="0.8"/>
+            <View android:layout_width="3dp" android:layout_height="16dp" android:layout_margin="1.5dp" android:background="#FFFFFF" android:alpha="0.8"/>
+            <View android:layout_width="3dp" android:layout_height="22dp" android:layout_margin="1.5dp" android:background="#FFFFFF" android:alpha="0.8"/>
+            <View android:layout_width="3dp" android:layout_height="28dp" android:layout_margin="1.5dp" android:background="#FFFFFF" android:alpha="0.8"/>
+            <View android:layout_width="3dp" android:layout_height="32dp" android:layout_margin="1.5dp" android:background="#FFFFFF" android:alpha="0.8"/>
+            <View android:layout_width="3dp" android:layout_height="36dp" android:layout_margin="1.5dp" android:background="#FFFFFF" android:alpha="0.8"/>
+            <View android:layout_width="3dp" android:layout_height="32dp" android:layout_margin="1.5dp" android:background="#FFFFFF" android:alpha="0.8"/>
+            <View android:layout_width="3dp" android:layout_height="28dp" android:layout_margin="1.5dp" android:background="#FFFFFF" android:alpha="0.8"/>
+            <View android:layout_width="3dp" android:layout_height="22dp" android:layout_margin="1.5dp" android:background="#FFFFFF" android:alpha="0.8"/>
+            <View android:layout_width="3dp" android:layout_height="16dp" android:layout_margin="1.5dp" android:background="#FFFFFF" android:alpha="0.8"/>
+            <View android:layout_width="3dp" android:layout_height="10dp" android:layout_margin="1.5dp" android:background="#FFFFFF" android:alpha="0.8"/>
+        </LinearLayout>
+    </FrameLayout>
+
+    <!-- 版本及开发者信息 (右下角单行显示) -->
+    <TextView
+        android:id="@+id/footer_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:text="开发作者：墨染夜殇  v 1.0.0"
+        android:textColor="#999999"
+        android:textSize="9sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

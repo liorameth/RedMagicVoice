@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="primary">#6200EE</color>
+    <color name="accent">#03DAC5</color>
+
+    <color name="btn_light_blue">#87CEFA</color>
+    <color name="btn_light_green">#90EE90</color>
+    <color name="voice_card_bg">#FFFFFF</color>
+    <color name="voice_card_paper">#FDF5E6</color>
+    <color name="voice_text_main">#333333</color>
+    <color name="dark_gray">#555555</color>
+    <color name="bg_main">#F0F2F5</color>
+</resources>

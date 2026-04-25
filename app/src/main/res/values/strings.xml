@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">语音助手</string>
+    <string name="app_version">v 1.0.0</string>
+    <string name="developer_name">开发作者：许怀光</string>
+</resources>
