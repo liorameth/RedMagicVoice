@@ -1,5 +1,7 @@
 # 语音助手 (RedMagicVoice) v 1.0.0
 
+![软件展示](screenshots/main.jpg)
+
 一款专为高性能 Android 设备打造的专业离线语音助手，支持实时录音转文字及批量音频文件转录。
 
 ## 核心特性
